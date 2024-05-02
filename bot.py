@@ -43,11 +43,15 @@ async def submitsoy(ctx, *args, **kwargs):
         while i < len(ctx.message.attachments):
             filename = ctx.message.attachments[i].filename
     
-            if (ctx.message.attachments[i].content_type[0:5] == "image"):
+            if (ctx.message.attachments[i].content_type[0:5] == "image" and ctx.message.attachments[i].size < 8000001):
                 await ctx.message.attachments[i].save(os.path.join(submission_folder, filename))
                 await ctx.send("Soyjak submitted!")
-            else:
+            elif (ctx.message.attachments[i].content_type[0:5] != "image"):
                 await ctx.send("File type not supported: " + ctx.message.attachments[i].content_type)
+            elif (ctx.message.attachments[i].size >= 8000001):
+                 await ctx.send("Error: File size greater than 8MB")
+            else:
+                 await ctx.send("Unknown error when submitting.")
             i += 1
     else:
         await ctx.send("No file attached.")
