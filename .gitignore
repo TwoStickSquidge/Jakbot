@@ -160,3 +160,4 @@ cython_debug/
 
 # Discord bot token
 token.txt
+soymins.txt

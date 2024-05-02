@@ -11,6 +11,10 @@ download_folder = "downloads"
 submission_folder = "forReview"
 submission_names = []
 
+soymins = []
+with open("soymins.txt") as file:
+    soymins = file.readlines()
+
 def update_images():
         for filename in os.listdir(download_folder):
             image_names.append(os.path.join(download_folder, filename))
@@ -56,7 +60,7 @@ async def updatesoy(ctx, *args, **kwargs):
 
 @Bot.command()
 async def approvesoys(ctx, *args, **kwargs):
-    if(ctx.author.name == "twosticksquidge"):
+    if(ctx.author.name in soymins):
         for filename in os.listdir(submission_folder):
             shutil.move(os.path.join(submission_folder, filename), os.path.join(download_folder, filename))
         update_images()
