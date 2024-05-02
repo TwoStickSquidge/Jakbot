@@ -71,7 +71,13 @@ async def approvesoys(ctx, *args, **kwargs):
         await ctx.send("Soys approved!")
     else:
         await ctx.send("You do not have permission to use that command")
-          
+
+
+@Bot.command()
+async def reviewsoys(ctx, *args, **kwargs):
+    if(ctx.author.name in soymins):
+        for filename in os.listdir(submission_folder):
+            await ctx.send(file=discord.File(os.path.join(submission_folder, filename)))
 
 token = ""
 with open("token.txt") as file:
