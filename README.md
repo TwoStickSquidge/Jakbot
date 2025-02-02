@@ -11,4 +11,3 @@ A Discord bot that sends Soyjaks
 ## Requirements
 To run your own instance of 'Jak Bot you need a token.txt file containing your Discord API token, as well as a soymins.txt file to be able to approve soys on your own bot.
 
-<a href="https://discord.com/oauth2/authorize?client_id=1069137930578309131&permissions=40001215123008&scope=bot">Add Jakbot to your Discord server</a>
