@@ -13,8 +13,8 @@ A Discord bot that sends Soyjaks
 ### Admin Commmands (Only accessible by users whose usernames appear in soymins.txt)
 * !updatesoy      - Makes sure that Jak Bot is pulling from the most recently updated downloads folder.
 * !reviewsoys     - Sends all of the images in the forReview folder.
-* !approvesoys    - Approves all of the images in the forReview folder, moving them to the downloads folder so that they can be sent with the !soy command.
-* 
+* !approvesoys    - Approves the images in the forReview folder, moving them to the downloads folder so that they can be sent with the !soy command. By default approves all of the images, adding the file names separated by spaces in the paramaters will approve only those specific files.
+
 ## Requirements
 To run your own instance of 'Jak Bot you need a token.txt file containing your Discord API token, as well as a soymins.txt file containing the usernames of whoever you want to be able to approve soys on your own instance of the bot.
 
