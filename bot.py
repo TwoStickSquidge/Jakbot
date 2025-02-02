@@ -70,43 +70,67 @@ async def submitsoy(ctx, *args, **kwargs):
 
 @Bot.command()
 async def updatesoy(ctx, *args, **kwargs):
-      image_names = []
-      update_images()
-      await ctx.send("Soys Updated!")
+    if (ctx.author.name in soymins):
+        image_names = []
+        update_images()
+        await ctx.send("'Jaks Updated!")
+    else:
+        await ctx.send("You do not have permission to use that command.")
 
 @Bot.command()
 async def approvesoys(ctx, *args, **kwargs):
+    t = 0
+    specFileError = []
+    specFileResult = []
+    msgContent = ""
     if(ctx.author.name in soymins):
-        for filename in os.listdir(submission_folder):
-            shutil.move(os.path.join(submission_folder, filename), os.path.join(download_folder, filename))
-        update_images()
-        await ctx.send("Soys approved!")
+        if len(args) == 0:
+            for filename in os.listdir(submission_folder):
+                shutil.move(os.path.join(submission_folder, filename), os.path.join(download_folder, filename))
+                t += 1
+            update_images()
+            if t > 0:
+                await ctx.send(f"All {t} 'jaks approved!")
+            else:
+                await ctx.send("There were no 'jaks awaiting approval.")
+        elif len(args) > 0:
+            for specfile in args:
+                if specfile in os.listdir(submission_folder):
+                    shutil.move(os.path.join(submission_folder, specfile), os.path.join(download_folder, specfile))
+                    specFileResult.append(specfile)
+                else: 
+                    specFileError.append(specfile)
+            if len(specFileResult) > 0:
+                msgContent += f"Approved 'jaks: {" & ".join(specFileResult)}"
+            else:
+                msgContent += "No 'jaks approved."
+            if len(specFileError) > 0:
+                msgContent += f"{'\n'}'Jaks {'"' + " & ".join(specFileError) + '"'} were not found."
+            await ctx.send(content=msgContent)
     else:
-        await ctx.send("You do not have permission to use that command")
+        await ctx.send("You do not have permission to use that command.")
 
 
 @Bot.command()
 async def reviewsoys(ctx, *args, **kwargs):
     soysToReview = []
-    numTrack = 0
     sentMsgs = 0
     if(ctx.author.name in soymins):
-        for filename in os.listdir(submission_folder):
-            if numTrack < 10:
-                soysToReview.append(discord.File(os.path.join(submission_folder, filename)))
-                numTrack += 1
-            elif numTrack == 10:
+        if len(os.listdir(submission_folder)) > 0:
+            for filename in os.listdir(submission_folder):
+                if len(soysToReview) < 10:
+                    soysToReview.append(discord.File(os.path.join(submission_folder, filename)))
+                elif len(soysToReview) == 10:
+                    await ctx.send(files=soysToReview)
+                    soysToReview.clear()
+                    sentMsgs += 1
+                else:
+                    await ctx.send("An Error occured.")
+            if len(soysToReview) > 0:
                 await ctx.send(files=soysToReview)
-                soysToReview.clear()
-                numTrack = 0
-                sentMsgs += 1
-            else:
-                await ctx.send("An Error occured.")
-        if sentMsgs == 0:
-            await ctx.send(files=soysToReview)
-        elif sentMsgs > 0 and numTrack > 0:
-            await ctx.send(files=soysToReview)
-
+            await ctx.send(f"There are {len(soysToReview) + (sentMsgs * 10)} soyjaks awaiting review.")
+        else:
+            await ctx.send("There are no soyjaks awaiting review.")
         # await ctx.send(file=discord.File(os.path.join(submission_folder, filename)))
 
 @Bot.command()
